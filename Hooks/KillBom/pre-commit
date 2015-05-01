@@ -1,0 +1,18 @@
+#!/bin/sh
+
+git diff --cached --diff-filter=ACMR --name-only -z | xargs -0 -n 1 sh -c '
+    for FILE; do
+        sed -b -i -e "1s/^\xEF\xBB\xBF//" "$FILE"
+	NEEDSADD=`git diff --diff-filter=ACMR --name-only | wc -l`
+	if [ $NEEDSADD -ne 0 ]; then
+	    echo "Removed UTF-8 BOM from $FILE"
+	    git add "$FILE"
+	fi
+    done
+' sh
+
+ANYCHANGES=`git diff --cached --name-only | wc -l`
+if [ $ANYCHANGES -eq 0 ]; then
+    git commit --no-verify
+    exit 1
+fi
