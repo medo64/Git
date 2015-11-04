@@ -25,3 +25,6 @@ git config --global alias.pending 'log master ^origin/master'
 
 # git recommit - take currently staged files and recommit it under previous commit.
 git config --global alias.recommit 'commit --amend --reuse-message=HEAD'
+
+# git staged - show changes in staged area.
+git config --global alias.staged 'diff --staged'
