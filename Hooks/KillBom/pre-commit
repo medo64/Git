@@ -4,19 +4,18 @@ git diff --cached --diff-filter=ACMR --name-only -z | xargs -0 -n 1 sh -c '
     for FILE; do
         file --brief --mime-type "$FILE" | grep -q text
         if [ $? -eq 0 ]; then
-            cp "$FILE" "$TEMP/KillBom.tmp"
+            FILE_TEMP="$(mktemp)"
+            cp "$FILE" "$FILE_TEMP"
             git checkout -- "$FILE"
-
             sed -b -i -e "1s/^\xEF\xBB\xBF//" "$FILE"
             NEEDSADD=`git diff --diff-filter=ACMR --name-only | wc -l`
             if [ $NEEDSADD -ne 0 ]; then
-                sed -b -i -e "1s/^\xEF\xBB\xBF//" "$TEMP/KillBom.tmp"
+                sed -b -i -e "1s/^\xEF\xBB\xBF//" "$FILE_TEMP"
                 echo "Removed UTF-8 BOM from $FILE"
                 git add "$FILE"
             fi
-
-            cp "$TEMP/KillBom.tmp" "$FILE"
-            rm "$TEMP/KillBom.tmp"
+            cp "$FILE_TEMP" "$FILE"
+            rm "$FILE_TEMP"
         fi
     done
 ' sh
