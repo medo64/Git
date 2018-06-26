@@ -26,5 +26,8 @@ git config --global alias.pending 'log master ^origin/master'
 # git recommit - take currently staged files and recommit it under previous commit.
 git config --global alias.recommit 'commit --amend --reuse-message=HEAD'
 
+# git redo - backout of last commit followed by a new commit (to stop a new commit, just abort the message)
+git config --global alias.redo '!git reset --soft HEAD~ && git commit'
+
 # git staged - show changes in staged area.
 git config --global alias.staged 'diff --staged'
