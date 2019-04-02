@@ -1,5 +1,6 @@
 # Don't convert CRLF
-git config --global system.autocrlf false
+git config --global core.autocrlf false
+git config --global core.safecrlf warn
 
 # Don't mark diffs with ^M
 git config --global core.whitespace cr-at-eol
