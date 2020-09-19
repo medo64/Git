@@ -5,6 +5,9 @@ git config --global core.safecrlf warn
 # Don't mark diffs with ^M
 git config --global core.whitespace cr-at-eol
 
+# Use main instead of master for branch name
+git config --global init.defaultBranch main
+
 
 # git changed - show files changed with commit
 git config --global alias.changed 'log --all --decorate --graph --pretty=short --name-status'
